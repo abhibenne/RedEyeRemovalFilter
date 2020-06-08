@@ -42,10 +42,7 @@ int main() {
   //load the image and give us our input and output pointers
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
 
-
-  //call the students' code
   radix_sort(inputVals, inputPos, outputVals, outputPos, numElems);
-
 
   cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
   // int err = printf("GPU Code ran in: %f msecs.\n", timer.Elapsed());

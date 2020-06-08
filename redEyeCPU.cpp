@@ -98,8 +98,8 @@ int main() {
 
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
 
-  thrust::host_vector<unsigned int> h_inputVals(inputVals);
-  thrust::host_vector<unsigned int> h_inputPos(inputPos);
+  thrust::host_vector<unsigned int> h_inputVals = thrust::device_pointer_cast(inputVals);
+  thrust::host_vector<unsigned int> h_inputPos = thrust::device_pointer_cast(inputPos);
 
   thrust::host_vector<unsigned int> h_outputVals(numElems);
   thrust::host_vector<unsigned int> h_outputPos(numElems);
