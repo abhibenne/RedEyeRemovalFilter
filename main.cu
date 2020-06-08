@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
-
-
+// #include "redEyeCPU.cpp"
+// 
 void preProcess(unsigned int **inputVals,
                 unsigned int **inputPos,
                 unsigned int **outputVals,
@@ -59,25 +59,25 @@ int main() {
   //check results and output the red-eye corrected image
   postProcess(outputVals, outputPos, numElems, output_file);
 
-  thrust::device_ptr<unsigned int> d_inputVals(inputVals);
-  thrust::device_ptr<unsigned int> d_inputPos(inputPos);
+  // thrust::device_ptr<unsigned int> d_inputVals(inputVals);
+  // thrust::device_ptr<unsigned int> d_inputPos(inputPos);
 
-  thrust::host_vector<unsigned int> h_inputVals(d_inputVals,
-      d_inputVals + numElems);
-  thrust::host_vector<unsigned int> h_inputPos(d_inputPos,
-      d_inputPos + numElems);
+  // thrust::host_vector<unsigned int> h_inputVals(d_inputVals,
+  //     d_inputVals + numElems);
+  // thrust::host_vector<unsigned int> h_inputPos(d_inputPos,
+  //     d_inputPos + numElems);
 
-  thrust::host_vector<unsigned int> h_outputVals(numElems);
-  thrust::host_vector<unsigned int> h_outputPos(numElems);
+  // thrust::host_vector<unsigned int> h_outputVals(numElems);
+  // thrust::host_vector<unsigned int> h_outputPos(numElems);
 
-  reference_calculation(&h_inputVals[0], &h_inputPos[0],
-                        &h_outputVals[0], &h_outputPos[0],
-                        numElems);
+  // reference_calculation(&h_inputVals[0], &h_inputPos[0],
+  //                       &h_outputVals[0], &h_outputPos[0],
+  //                       numElems);
 
   // unsigned int *posPtr;
   // postProcess(valsPtr, posPtr, numElems, reference_file);
 
-  postProcess(h_outputVals, h_outputPos, numElems, reference_file);
+  // postProcess(&h_outputVals, &h_outputPos, numElems, reference_file);
 
   checkCudaErrors(cudaFree(inputVals));
   checkCudaErrors(cudaFree(inputPos));

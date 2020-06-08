@@ -1,12 +1,10 @@
-//Udacity HW4 Driver
 
 #include <iostream>
-// #include "timer.h"
 #include "utils.h"
 #include <string>
 #include <stdio.h>
-// #include <thrust/host_vector.h>
-// #include <thrust/device_vector.h>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
 
 #include <algorithm>
 // For memset
@@ -85,12 +83,6 @@ void postProcess(const unsigned int* const outputVals,
                  const size_t numElems,
                  const std::string& output_file);
 
-void your_sort(unsigned int* const inputVals,
-               unsigned int* const inputPos,
-               unsigned int* const outputVals,
-               unsigned int* const outputPos,
-               const size_t numElems);
-
 int main() {
   unsigned int *inputVals;
   unsigned int *inputPos;
@@ -102,18 +94,15 @@ int main() {
   std::string input_file = "red_eye_effect_5.jpg";
   std::string template_file = "red_eye_effect_template_5.jpg";
   std::string output_file = "outputCPU.jpg";
-  std::string reference_file;
-  double perPixelError = 0.0;
-  double globalError   = 0.0;
 
 
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
 
-  host_vector<unsigned int> h_inputVals(inputVals);
-  host_vector<unsigned int> h_inputPos(inputPos);
+  thrust::host_vector<unsigned int> h_inputVals(inputVals);
+  thrust::host_vector<unsigned int> h_inputPos(inputPos);
 
-  host_vector<unsigned int> h_outputVals(numElems);
-  host_vector<unsigned int> h_outputPos(numElems);
+  thrust::host_vector<unsigned int> h_outputVals(numElems);
+  thrust::host_vector<unsigned int> h_outputPos(numElems);
 
   reference_calculation(&h_inputVals[0], &h_inputPos[0],
                         &h_outputVals[0], &h_outputPos[0],
