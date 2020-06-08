@@ -34,13 +34,10 @@ int main() {
 
   size_t numElems;
 
-  std::string input_file;
-  std::string template_file;
-  std::string output_file;
-  std::string reference_file;
-  double perPixelError = 0.0;
-  double globalError   = 0.0;
-  bool useEpsCheck = false;
+  std::string input_file = "red_eye_effect_5.jpg";
+  std::string template_file = "red_eye_effect_template_5.jpg";
+  std::string output_file = "fromGPU.jpg";
+  std::string reference_file  = "fromCPU.jpg";
 
   //load the image and give us our input and output pointers
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
@@ -77,7 +74,10 @@ int main() {
                         &h_outputVals[0], &h_outputPos[0],
                         numElems);
 
-  postProcess(valsPtr, posPtr, numElems, reference_file);
+  // unsigned int *posPtr;
+  // postProcess(valsPtr, posPtr, numElems, reference_file);
+
+  postProcess(h_outputVals, h_outputPos, numElems, reference_file);
 
   checkCudaErrors(cudaFree(inputVals));
   checkCudaErrors(cudaFree(inputPos));
