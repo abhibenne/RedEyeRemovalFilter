@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include "utils.h"
-#include "timer.h"
 #include <string>
 #include <stdio.h>
 #include <thrust/host_vector.h>
@@ -46,21 +45,19 @@ int main() {
   //load the image and give us our input and output pointers
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
 
-  GpuTimer timer;
-  timer.Start();
 
   //call the students' code
   radix_sort(inputVals, inputPos, outputVals, outputPos, numElems);
 
-  timer.Stop();
-  cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
-  int err = printf("GPU Code ran in: %f msecs.\n", timer.Elapsed());
 
-  if (err < 0) {
-    //Couldn't print! Probably the student closed stdout - bad news
-    std::cerr << "Couldn't print timing information! STDOUT Closed!" << std::endl;
-    exit(1);
-  }
+  cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
+  // int err = printf("GPU Code ran in: %f msecs.\n", timer.Elapsed());
+
+  // if (err < 0) {
+  //   //Couldn't print! Probably the student closed stdout - bad news
+  //   std::cerr << "Couldn't print timing information! STDOUT Closed!" << std::endl;
+  //   exit(1);
+  // }
 
   //check results and output the red-eye corrected image
   postProcess(outputVals, outputPos, numElems, output_file);
