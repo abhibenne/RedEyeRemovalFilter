@@ -10,11 +10,11 @@
 // For memset
 #include <cstring>
 
-void reference_calculation(unsigned int* inputVals,
-                           unsigned int* inputPos,
-                           unsigned int* outputVals,
-                           unsigned int* outputPos,
-                           const size_t numElems)
+void CPU_radix(unsigned int* inputVals,
+               unsigned int* inputPos,
+               unsigned int* outputVals,
+               unsigned int* outputPos,
+               const size_t numElems)
 {
   const int numBits = 1;
   const int numBins = 1 << numBits;
@@ -98,16 +98,10 @@ int main() {
 
   preProcess(&inputVals, &inputPos, &outputVals, &outputPos, numElems, input_file, template_file);
 
-  thrust::host_vector<unsigned int> h_inputVals = thrust::device_pointer_cast(inputVals);
-  thrust::host_vector<unsigned int> h_inputPos = thrust::device_pointer_cast(inputPos);
+  CPU_radix(inputVals, inputPos,
+            outputVals, outputPos,
+            numElems);
 
-  thrust::host_vector<unsigned int> h_outputVals(numElems);
-  thrust::host_vector<unsigned int> h_outputPos(numElems);
-
-  reference_calculation(&h_inputVals[0], &h_inputPos[0],
-                        &h_outputVals[0], &h_outputPos[0],
-                        numElems);
-
-  postProcess(h_outputVals, h_outputPos, numElems, output_file);
+  postProcess(outputVals, outputPos, numElems, output_file);
   return 0;
 }
